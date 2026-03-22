@@ -1,24 +1,11 @@
--- 微信自动发送图片脚本
--- 用法：osascript wechat_image.applescript "联系人姓名" "/图片路径.png"
-
+-- 接收外部参数：第1个=联系人，第2个=发送内容（文字或图片路径），第3个=类型（text/image，可选，默认text）
 on run argv
 	set targetName to item 1 of argv
-	set imagePath to item 2 of argv
+	set sendMsg to item 2 of argv
 	
-	-- 验证图片文件存在
-	try
-		tell application "Finder"
-			set imageFile to POSIX file imagePath as alias
-		end tell
-	on error
-		display notification "图片文件不存在：" & imagePath with title "微信发送失败"
-		return
-	end try
-	
-	-- 打开微信
 	tell application "WeChat"
 		activate
-		delay 3
+		delay 5
 	end tell
 	
 	-- 打开 Spotlight（全局快捷键，不在微信进程内）
@@ -30,7 +17,7 @@ on run argv
 	
 	-- 清空并搜索微信
 	tell application "System Events"
-		-- 全选删除，确保输入框清空
+		-- 全选删除
 		keystroke "a" using {command down}
 		delay 0.1
 		keystroke (key code 51)
@@ -47,33 +34,24 @@ on run argv
 		delay 0.4
 		keystroke "f" using {command down}
 		delay 1
-		
-		-- 粘贴联系人姓名
 		set the clipboard to targetName
 		keystroke "v" using {command down}
-		delay 1.2
+		delay 1
 		keystroke return
-		delay 1.5
-		
-		-- 确认进入聊天窗口
-		keystroke return
-		delay 0.8
-		
-		-- 复制并发送图片
-		tell application "Finder"
-			set the clipboard to (read (POSIX file imagePath) as «class PNGf»)
-		end tell
-		
-		delay 0.5
-		
-		-- 粘贴图片
-		keystroke "v" using {command down}
 		delay 2
-		
-		-- 发送
 		keystroke return
-		delay 0.5
+		
+		-- 导航
+		delay 0.3
+		key code 125 using {option down}
+		key code 126 using {option down}
+		delay 0.3
+		
+		-- 发送消息
+		set the clipboard to sendMsg
+		keystroke "v" using {command down}
+		delay 1
+		keystroke return
+		keystroke return
 	end tell
-	
-	display notification "图片已发送给 " & targetName with title "微信发送成功"
 end run
