@@ -73,10 +73,10 @@ osascript scripts/wechat_image.applescript "<联系人或群名>" "<图片路径
 
 ```bash
 # 发送 PNG 图片
-osascript scripts/wechat_image.applescript "技术交流群" "/Users/wenming/Pictures/chart.png"
+osascript scripts/wechat_image.applescript "技术交流群" "/Users/wenming/Desktop/chart.png"
 
 # 发送 JPG 图片
-osascript scripts/wechat_image.applescript "张三" "/Users/wenming/Pictures/photo.jpg"
+osascript scripts/wechat_image.applescript "张三" "/Users/wenming/Desktop/photo.jpg"
 
 # 发送金价走势图
 osascript scripts/wechat_image.applescript "全栈交流群" "/tmp/gold_price_30days.png"
